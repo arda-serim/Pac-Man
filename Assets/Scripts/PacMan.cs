@@ -8,42 +8,19 @@ public class PacMan : MonoBehaviour
     [SerializeField]int speed;
     Dictionary<string, RaycastHit2D> rays = new Dictionary<string, RaycastHit2D>();
     Collider2D col;
+    float errorMargin = 0.1f;
+    float raycastDistance = 0.1f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
-
-        rays.Add("TopLeftHor",Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x/2, col.bounds.size.y/2), 
-            transform.position + new Vector3(-col.bounds.size.x / 2, col.bounds.size.y / 2) + Vector3.left // left top to left
-            , 0.5f, 1 << 8));
-        rays.Add("TopLeftVer", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2, col.bounds.size.y / 2),
-            transform.position + new Vector3(-col.bounds.size.x / 2, col.bounds.size.y / 2) + Vector3.up // left top to up
-            , 0.5f, 1 << 8));
-        rays.Add("TopRightHor", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2, col.bounds.size.y / 2),
-            transform.position + new Vector3(col.bounds.size.x / 2, col.bounds.size.y / 2) + Vector3.right // Right top to right
-            , 0.5f, 1 << 8));
-        rays.Add("TopRightVer", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2, col.bounds.size.y / 2),
-            transform.position + new Vector3(col.bounds.size.x / 2, col.bounds.size.y / 2) + Vector3.up // right top to up
-            , 0.5f, 1 << 8));
-        rays.Add("BottomRightHor", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2, -col.bounds.size.y / 2),
-            transform.position + new Vector3(col.bounds.size.x / 2, -col.bounds.size.y / 2) + Vector3.right // right bottom to right
-            , 0.5f, 1 << 8));
-        rays.Add("BottomRightVer", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2, -col.bounds.size.y / 2),
-            transform.position + new Vector3(col.bounds.size.x / 2, -col.bounds.size.y / 2) + Vector3.down // right bottom to down
-            , 0.5f, 1 << 8));
-        rays.Add("BottomLeftHor", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2, -col.bounds.size.y / 2),
-            transform.position + new Vector3(-col.bounds.size.x / 2, -col.bounds.size.y / 2) + Vector3.left // left bottom to left
-            , 0.5f, 1 << 8));
-        rays.Add("BottomLeftVer", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2, -col.bounds.size.y / 2),
-            transform.position + new Vector3(-col.bounds.size.x / 2, -col.bounds.size.y / 2) + Vector3.down // left bottom to down
-            , 0.5f, 1 << 8));
-
+        Debug.Log(col.bounds.size.y);
     }
 
     void Update()
     {
-
+        SendRays();
         Turn();
         MoveForward();
     }
@@ -72,5 +49,27 @@ public class PacMan : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 270);
         }
 
+    }
+
+    void SendRays()
+    {
+        rays.Clear();
+
+        rays.Add("TopLeftHor", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2, col.bounds.size.y / 2 - errorMargin),
+            Vector3.left , raycastDistance, 1 << 8));
+        rays.Add("TopLeftVer", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2 + errorMargin, col.bounds.size.y / 2),
+            Vector3.up  , raycastDistance, 1 << 8));
+        rays.Add("TopRightHor", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2, col.bounds.size.y / 2 - errorMargin),
+            Vector3.right, raycastDistance, 1 << 8));
+        rays.Add("TopRightVer", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2 - errorMargin, col.bounds.size.y / 2),
+            Vector3.up, raycastDistance, 1 << 8));
+        rays.Add("BottomRightHor", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2, -col.bounds.size.y / 2 + errorMargin),
+            Vector3.right, raycastDistance, 1 << 8));
+        rays.Add("BottomRightVer", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2 - errorMargin, -col.bounds.size.y / 2),
+            Vector3.down, raycastDistance, 1 << 8));
+        rays.Add("BottomLeftHor", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2, -col.bounds.size.y / 2 + errorMargin),
+            Vector3.left , raycastDistance, 1 << 8));
+        rays.Add("BottomLeftVer", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2 + errorMargin, -col.bounds.size.y / 2),
+            Vector3.down , raycastDistance, 1 << 8));
     }
 }
