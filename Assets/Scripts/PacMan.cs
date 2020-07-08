@@ -9,7 +9,7 @@ public class PacMan : MonoBehaviour
     Dictionary<string, RaycastHit2D> rays = new Dictionary<string, RaycastHit2D>();
     Collider2D col;
     float errorMargin = 0;
-    float raycastDistance = 0.1f;
+    float raycastDistance = 0.13f;
 
     void Start()
     {
@@ -19,9 +19,9 @@ public class PacMan : MonoBehaviour
 
     void Update()
     {
+        MoveForward();
         SendRays();
         Turn();
-        MoveForward();
     }
 
     void MoveForward()
