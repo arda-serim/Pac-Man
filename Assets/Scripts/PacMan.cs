@@ -5,11 +5,13 @@ using UnityEngine;
 public class PacMan : MonoBehaviour
 {
     Rigidbody2D rb;
-    [SerializeField]int speed;
+    [SerializeField] int speed;
     Dictionary<string, RaycastHit2D> rays = new Dictionary<string, RaycastHit2D>();
     Collider2D col;
     float errorMargin = 0;
     float raycastDistance = 0.13f;
+
+    int score;
 
     void Start()
     {
@@ -75,9 +77,9 @@ public class PacMan : MonoBehaviour
         rays.Clear();
 
         rays.Add("TopLeftHor", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2, col.bounds.size.y / 2 - errorMargin),
-            Vector3.left , raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
+            Vector3.left, raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
         rays.Add("TopLeftVer", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2 + errorMargin, col.bounds.size.y / 2),
-            Vector3.up  , raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
+            Vector3.up, raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
         rays.Add("TopRightHor", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2, col.bounds.size.y / 2 - errorMargin),
             Vector3.right, raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
         rays.Add("TopRightVer", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2 - errorMargin, col.bounds.size.y / 2),
@@ -87,13 +89,28 @@ public class PacMan : MonoBehaviour
         rays.Add("BottomRightVer", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2 - errorMargin, -col.bounds.size.y / 2),
             Vector3.down, raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
         rays.Add("BottomLeftHor", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2, -col.bounds.size.y / 2 + errorMargin),
-            Vector3.left , raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
+            Vector3.left, raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
         rays.Add("BottomLeftVer", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2 + errorMargin, -col.bounds.size.y / 2),
-            Vector3.down , raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
+            Vector3.down, raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
         rays.Add("MiddleTop", Physics2D.Raycast(transform.position + new Vector3(0, col.bounds.size.y / 2), Vector3.up, raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
         rays.Add("MiddleRight", Physics2D.Raycast(transform.position + new Vector3(col.bounds.size.x / 2, 0), Vector3.right, raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
         rays.Add("MiddleBottom", Physics2D.Raycast(transform.position + new Vector3(0, -col.bounds.size.y / 2), Vector3.down, raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
         rays.Add("MiddleLeft", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2, 0), Vector3.left, raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (CompareTag("SmallPoint"))
+        {
+            score += 10;
+        }
+        else if (CompareTag("BigPoint"))
+        {
+            score += 50;
+            // start run mode for ghosts
+        }
+
+        Destroy(other.gameObject);
     }
 
 }
