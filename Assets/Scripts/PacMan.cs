@@ -19,9 +19,9 @@ public class PacMan : MonoBehaviour
 
     void Update()
     {
+        Turn();
         MoveForward();
         SendRays();
-        Turn();
     }
 
     void MoveForward()
@@ -39,7 +39,7 @@ public class PacMan : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, 0, 90);
         }
-        else if (Input.GetKeyDown(KeyCode.D) && !rays["TopRightHor"] && !rays["BottomRightHor"] && !rays["MiddleLeft"])
+        else if (Input.GetKeyDown(KeyCode.D) && !rays["TopRightHor"] && !rays["BottomRightHor"] && !rays["MiddleRight"])
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
@@ -48,6 +48,26 @@ public class PacMan : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 270);
         }
 
+    }
+
+    void TurnAuto()
+    {
+        if (!rays["TopLeftHor"] && !rays["BottomLeftHor"] && !rays["MiddleLeft"])
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
+        else if (!rays["TopLeftVer"] && !rays["TopRightVer"] && !rays["MiddleTop"])
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+        }
+        /*else if (!rays["TopRightHor"] && !rays["BottomRightHor"] && !rays["MiddleLeft"])
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }*/
+        /*else if (!rays["BottomLeftVer"] && !rays["BottomRightVer"] && !rays["MiddleBottom"])
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 270);
+        }*/
     }
 
     void SendRays()
