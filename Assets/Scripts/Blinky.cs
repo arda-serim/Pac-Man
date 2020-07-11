@@ -5,12 +5,13 @@ using UnityEngine;
 public class Blinky : Ghost
 {
     
+
     private void Update()
     {
-        SpriteChanged();
+        SpriteChecker();
         if (isSpriteChanged && !tempBool)
         {
-            StartCoroutine(isSpriteChanger());
+            StartCoroutine(IsSpriteChanger());
         }
         if (!isSpriteChanged)
         {
@@ -22,6 +23,6 @@ public class Blinky : Ghost
     }
     public override Vector3 SetWaypoint()
     {
-        return new Vector3 (1.369f, 2.276f);
+        return pacman.transform.position;
     }
 }

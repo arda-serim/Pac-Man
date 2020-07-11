@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Ghost : MonoBehaviour
 {
+    protected GameObject pacman;
+
     [SerializeField] protected Sprite[] sprites = new Sprite[4];
 
     [SerializeField]protected int speed;
@@ -22,8 +24,11 @@ public abstract class Ghost : MonoBehaviour
     protected bool tempBool;
     Sprite tempSprite;
 
+    bool cannotTurnUp;
+
     void Start()
     {
+        pacman = GameObject.Find("PacMan");
         col = gameObject.GetComponent<Collider2D>();
         rb = gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -31,11 +36,6 @@ public abstract class Ghost : MonoBehaviour
         isSpriteChanged = false;
         tempBool = false;
         tempSprite = spriteRenderer.sprite;
-    }
-
-    void Update()
-    {
-
     }
 
     protected void MoveForward()
@@ -81,7 +81,7 @@ public abstract class Ghost : MonoBehaviour
             minDistance = Vector3.Distance(transform.position + new Vector3(-col.bounds.size.x / 2, 0), waypoint);
             spriteValue = 2;
         }
-        if (!spriteRenderer.sprite.name.Contains("Down") && !rays["TopLeftVer"] && !rays["TopRightVer"] && !rays["MiddleTop"] && Vector3.Distance(transform.position + new Vector3(0, col.bounds.size.y / 2), waypoint) <= minDistance)
+        if (!spriteRenderer.sprite.name.Contains("Down") && !cannotTurnUp && !rays["TopLeftVer"] && !rays["TopRightVer"] && !rays["MiddleTop"] && Vector3.Distance(transform.position + new Vector3(0, col.bounds.size.y / 2), waypoint) <= minDistance)
         {
             minDistance = Vector3.Distance(transform.position + new Vector3(0, col.bounds.size.y / 2), waypoint);
             spriteValue = 3;
@@ -116,22 +116,39 @@ public abstract class Ghost : MonoBehaviour
         rays.Add("MiddleLeft", Physics2D.Raycast(transform.position + new Vector3(-col.bounds.size.x / 2, 0), Vector3.left, raycastDistance, 1 << LayerMask.NameToLayer("Maze")));
     }
 
-    protected void SpriteChanged()
+    protected void SpriteChecker()
     {
         if (tempSprite != spriteRenderer.sprite)
         {
             isSpriteChanged = true;
         }
+
         tempSprite = spriteRenderer.sprite;
     }
 
-    protected IEnumerator isSpriteChanger()
+    protected IEnumerator IsSpriteChanger()
     {
         tempBool = true;
 
         yield return new WaitForSeconds(0.3f);
         isSpriteChanged = false;
         tempBool = false;
+    }
+
+    void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collider.CompareTag("CannotTurnUp"))
+        {
+            cannotTurnUp = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.CompareTag("CannotTurnUp"))
+        {
+            cannotTurnUp = false;
+        }
     }
 
     public abstract Vector3 SetWaypoint();

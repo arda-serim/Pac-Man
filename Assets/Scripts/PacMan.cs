@@ -10,6 +10,7 @@ public class PacMan : MonoBehaviour
     Collider2D col;
     float errorMargin = 0;
     float raycastDistance = 0.13f;
+    int currentRotationZ;
 
     int score;
 
@@ -23,6 +24,7 @@ public class PacMan : MonoBehaviour
     void Update()
     {
         Turn();
+        transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, currentRotationZ));
         MoveForward();
         SendRays();
     }
@@ -37,18 +39,22 @@ public class PacMan : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A) && !rays["TopLeftHor"] && !rays["BottomLeftHor"] && !rays["MiddleLeft"])
         {
             transform.rotation = Quaternion.Euler(0, 0, 180);
+            currentRotationZ = 180;
         }
         else if (Input.GetKeyDown(KeyCode.W) && !rays["TopLeftVer"] && !rays["TopRightVer"] && !rays["MiddleTop"])
         {
             transform.rotation = Quaternion.Euler(0, 0, 90);
+            currentRotationZ = 90;
         }
         else if (Input.GetKeyDown(KeyCode.D) && !rays["TopRightHor"] && !rays["BottomRightHor"] && !rays["MiddleRight"])
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
+            currentRotationZ = 0;
         }
         else if (Input.GetKeyDown(KeyCode.S) && !rays["BottomLeftVer"] && !rays["BottomRightVer"] && !rays["MiddleBottom"])
         {
             transform.rotation = Quaternion.Euler(0, 0, 270);
+            currentRotationZ = 270;
         }
 
     }
@@ -93,5 +99,4 @@ public class PacMan : MonoBehaviour
 
         Destroy(other.gameObject);
     }
-
 }

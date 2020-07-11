@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SmallPoint
   - BigPoint
+  - CannotTurnUp
   layers:
   - Default
   - TransparentFX
