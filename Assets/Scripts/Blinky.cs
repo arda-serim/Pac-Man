@@ -4,25 +4,13 @@ using UnityEngine;
 
 public class Blinky : Ghost
 {
-    
-
-    private void Update()
-    {
-        SpriteChecker();
-        if (isSpriteChanged && !tempBool)
-        {
-            StartCoroutine(IsSpriteChanger());
-        }
-        if (!isSpriteChanged)
-        {
-            Turn(SetWaypoint());
-        }
-        transform.rotation = Quaternion.identity;
-        MoveForward();
-        SendRays();
-    }
     public override Vector3 SetWaypoint()
     {
+        if (scatterMode)
+        {
+            return new Vector3(4.064f, 4.584f);
+        }
+
         return pacman.transform.position;
     }
 }
