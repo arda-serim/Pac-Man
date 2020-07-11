@@ -38,6 +38,7 @@ public abstract class Ghost : MonoBehaviour
         tempSprite = spriteRenderer.sprite;
     }
 
+     
     protected void MoveForward()
     {
         Vector3 tempVec = Vector3.zero;
@@ -126,11 +127,12 @@ public abstract class Ghost : MonoBehaviour
         tempSprite = spriteRenderer.sprite;
     }
 
-    protected IEnumerator IsSpriteChanger()
+    protected IEnumerator IsSpriteChangedChanger()
     {
         tempBool = true;
 
         yield return new WaitForSeconds(0.3f);
+
         isSpriteChanged = false;
         tempBool = false;
     }

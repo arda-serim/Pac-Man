@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Blinky : Ghost
+public class Pinky : Ghost
 {
-     private void Update()
+    private void Update()
     {
 
         SpriteChecker();
@@ -22,6 +22,6 @@ public class Blinky : Ghost
     }
     public override Vector3 SetWaypoint()
     {
-        return pacman.transform.position;
+        return pacman.transform.position + pacman.transform.right;
     }
 }
