@@ -89,6 +89,9 @@ public abstract class Ghost : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
+     
+=======
     /// <summary>
     /// Change ghost phase to frightened.Hardly make mistake becaues of everytime change phase it controls that it is in frightened
     /// </summary>
@@ -142,6 +145,7 @@ public abstract class Ghost : MonoBehaviour
     /// <summary>
     /// Move to the faced ghost direction
     /// </summary>
+>>>>>>> 9ba065742e12aae9432788834b755b56ee0fcac9
     protected void MoveForward()
     {
         Vector3 tempVec = Vector3.zero;
@@ -243,15 +247,20 @@ public abstract class Ghost : MonoBehaviour
         tempSprite = spriteRenderer.sprite;
     }
 
+<<<<<<< HEAD
+    protected IEnumerator IsSpriteChangedChanger()
+=======
     /// <summary>
     /// When isSpriteChanged == true. wait 0.3f then make it false:
     /// </summary>
     /// <returns></returns>
     protected IEnumerator IsSpriteChanger()
+>>>>>>> 9ba065742e12aae9432788834b755b56ee0fcac9
     {
         tempBool = true;
 
         yield return new WaitForSeconds(0.3f);
+
         isSpriteChanged = false;
         tempBool = false;
     }
