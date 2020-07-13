@@ -15,6 +15,7 @@ public class Pinky : Ghost
         {
             return new Vector3(-4.019f, 4.592f);
         }
+
         return pacman.transform.position + pacman.transform.right;
     }
 }

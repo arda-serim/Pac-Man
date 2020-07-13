@@ -8182,9 +8182,9 @@ GameObject:
   m_Component:
   - component: {fileID: 625044729}
   - component: {fileID: 625044728}
-  - component: {fileID: 625044727}
   - component: {fileID: 625044726}
   - component: {fileID: 625044730}
+  - component: {fileID: 625044727}
   m_Layer: 0
   m_Name: PacMan
   m_TagString: Untagged
@@ -8255,7 +8255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30a175231ca708e40923588bf1f31aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 2
 --- !u!50 &625044728
 Rigidbody2D:
   serializedVersion: 4

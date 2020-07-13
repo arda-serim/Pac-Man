@@ -36,15 +36,13 @@ public abstract class Ghost : MonoBehaviour
 
     bool cannotTurnUp;
 
-    [SerializeField] GameObject[] gameObjects;
-
     void Awake()
     {
         pacman = GameObject.Find("PacMan");
         col = gameObject.GetComponent<Collider2D>();
         rb = gameObject.GetComponent<Rigidbody2D>();
 
-        gameObjects = GameObject.FindGameObjectsWithTag("Ghost");
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Ghost");
 
         foreach (var ghost in gameObjects)
         {
