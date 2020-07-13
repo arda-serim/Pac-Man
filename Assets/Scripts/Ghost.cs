@@ -4,18 +4,17 @@ using UnityEngine;
 
 public abstract class Ghost : MonoBehaviour
 {
-    enum Phase
+    protected enum Phase
     {
         Chase,
         Scatter,
         Frightened,
         Dead
     }
-    Phase phase;
+
+    protected Phase phase;
 
     protected GameObject pacman;
-
-    protected bool scatterMode;
 
     [SerializeField] protected Sprite[] sprites = new Sprite[4];
 
@@ -37,11 +36,24 @@ public abstract class Ghost : MonoBehaviour
 
     bool cannotTurnUp;
 
-    void Start()
+    [SerializeField] GameObject[] gameObjects;
+
+    void Awake()
     {
         pacman = GameObject.Find("PacMan");
         col = gameObject.GetComponent<Collider2D>();
         rb = gameObject.GetComponent<Rigidbody2D>();
+
+        gameObjects = GameObject.FindGameObjectsWithTag("Ghost");
+
+        foreach (var ghost in gameObjects)
+        {
+            Physics2D.IgnoreCollision(col, ghost.GetComponent<Collider2D>());
+        }
+    }
+
+    void Start()
+    {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         SendRays();
         isSpriteChanged = false;
@@ -51,14 +63,14 @@ public abstract class Ghost : MonoBehaviour
         StartCoroutine(ChaseScatterChanger());
     }
 
-    private void Update()
+    void Update()
     {
         SpriteChecker();
         if (isSpriteChanged && !tempBool)
         {
-            StartCoroutine(IsSpriteChanger());
+            StartCoroutine(IsSpriteChangedChanger());
         }
-        PhaseController();
+        GoPoint(SetWaypoint());
         transform.rotation = Quaternion.identity;
         MoveForward();
         SendRays();
@@ -89,9 +101,7 @@ public abstract class Ghost : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
      
-=======
     /// <summary>
     /// Change ghost phase to frightened.Hardly make mistake becaues of everytime change phase it controls that it is in frightened
     /// </summary>
@@ -120,32 +130,10 @@ public abstract class Ghost : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Make phase move
-    /// </summary>
-    protected void PhaseController()
-    {
-        switch (phase)
-        {
-            case Phase.Chase:
-                scatterMode = false;
-                Chase(SetWaypoint());
-                break;
-            case Phase.Scatter:
-                scatterMode = true;
-                Chase(SetWaypoint());
-                break;
-            case Phase.Frightened:
-                break;
-            case Phase.Dead:
-                break;
-        }
-    }
 
     /// <summary>
     /// Move to the faced ghost direction
     /// </summary>
->>>>>>> 9ba065742e12aae9432788834b755b56ee0fcac9
     protected void MoveForward()
     {
         Vector3 tempVec = Vector3.zero;
@@ -174,7 +162,7 @@ public abstract class Ghost : MonoBehaviour
     /// Chase phase thing. (In scatter mode it chases the self scatter waypoint)
     /// </summary>
     /// <param name="waypoint"></param>
-    protected void Chase(Vector3 waypoint)
+    protected void GoPoint(Vector3 waypoint)
     {
         if (!isSpriteChanged)
         {
@@ -247,19 +235,15 @@ public abstract class Ghost : MonoBehaviour
         tempSprite = spriteRenderer.sprite;
     }
 
-<<<<<<< HEAD
-    protected IEnumerator IsSpriteChangedChanger()
-=======
     /// <summary>
     /// When isSpriteChanged == true. wait 0.3f then make it false:
     /// </summary>
     /// <returns></returns>
-    protected IEnumerator IsSpriteChanger()
->>>>>>> 9ba065742e12aae9432788834b755b56ee0fcac9
+    protected IEnumerator IsSpriteChangedChanger()
     {
         tempBool = true;
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
 
         isSpriteChanged = false;
         tempBool = false;

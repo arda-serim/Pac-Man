@@ -4,24 +4,17 @@ using UnityEngine;
 
 public class Pinky : Ghost
 {
-    private void Update()
-    {
-
-        SpriteChecker();
-        if (isSpriteChanged && !tempBool)
-        {
-            StartCoroutine(IsSpriteChangedChanger());
-        }
-        if (!isSpriteChanged)
-        {
-            Turn(SetWaypoint());
-        }
-        transform.rotation = Quaternion.identity;
-        MoveForward();
-        SendRays();
-    }
     public override Vector3 SetWaypoint()
     {
+        if (phase == Phase.Dead)
+        {
+            return new Vector3(0, 0.35f);
+        }
+
+        if (phase == Phase.Scatter)
+        {
+            return new Vector3(-4.019f, 4.592f);
+        }
         return pacman.transform.position + pacman.transform.right;
     }
 }

@@ -4,21 +4,14 @@ using UnityEngine;
 
 public class Blinky : Ghost
 {
-<<<<<<< HEAD
-     private void Update()
-    {
-
-        SpriteChecker();
-        if (isSpriteChanged && !tempBool)
-        {
-            StartCoroutine(IsSpriteChangedChanger());
-        }
-        if (!isSpriteChanged)
-=======
     public override Vector3 SetWaypoint()
     {
-        if (scatterMode)
->>>>>>> 9ba065742e12aae9432788834b755b56ee0fcac9
+        if (phase == Phase.Dead)
+        {
+            return new Vector3(0, 0.35f);
+        }
+
+        if (phase == Phase.Scatter)
         {
             return new Vector3(4.064f, 4.584f);
         }
