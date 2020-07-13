@@ -24,6 +24,11 @@ public class Clyde : Ghost
             return new Vector3(-4.024f, -4.466f);
         }
 
+        if (phase == Phase.Frightened)
+        {
+            return new Vector3(Random.Range(-4.5f, 4.5f), Random.Range(-5f, 5f));
+        }
+
         return pacman.transform.position;
     }
 }

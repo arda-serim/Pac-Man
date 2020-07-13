@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3723313688980289615}
   m_Layer: 0
   m_Name: Clyde
-  m_TagString: Untagged
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,4 +149,5 @@ MonoBehaviour:
   - {fileID: 8295090138552639746, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
   - {fileID: -3244309331689365813, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
   - {fileID: 2415137940909422303, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
+  - {fileID: 3950689983899740486, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
   speed: 2

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public abstract class Ghost : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public abstract class Ghost : MonoBehaviour
 
     protected GameObject pacman;
 
-    [SerializeField] protected Sprite[] sprites = new Sprite[4];
+    [SerializeField] protected Sprite[] sprites = new Sprite[5];
 
     [SerializeField]protected int speed;
     private Rigidbody2D rb;
@@ -34,31 +35,33 @@ public abstract class Ghost : MonoBehaviour
     protected bool tempBool;
     Sprite tempSprite;
 
-    bool cannotTurnUp;
-
     void Awake()
     {
         pacman = GameObject.Find("PacMan");
         col = gameObject.GetComponent<Collider2D>();
         rb = gameObject.GetComponent<Rigidbody2D>();
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
-        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Ghost");
+        List<GameObject> gameObjects = GameObject.FindGameObjectsWithTag("Ghost").ToList<GameObject>();
 
-        foreach (var ghost in gameObjects)
+        for (int i = 0; i < 3; i++ )
         {
-            Physics2D.IgnoreCollision(col, ghost.GetComponent<Collider2D>());
+            for (int j = i + 1; j < gameObjects.Count; j++)
+            {
+                Physics2D.IgnoreCollision(gameObjects[i].GetComponent<Collider2D>(), gameObjects[j].GetComponent<Collider2D>());
+            }
         }
     }
 
-    void Start()
+    void OnEnable()
     {
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         SendRays();
         isSpriteChanged = false;
         tempBool = false;
         tempSprite = spriteRenderer.sprite;
         phase = Phase.Chase;
-        StartCoroutine(ChaseScatterChanger());
+
+        GameManager.Instance.frightened += FrightenedChangerStarter;
     }
 
     void Update()
@@ -68,7 +71,9 @@ public abstract class Ghost : MonoBehaviour
         {
             StartCoroutine(IsSpriteChangedChanger());
         }
-        GoPoint(SetWaypoint());
+        StartCoroutine(ChaseChanger());
+        StartCoroutine(ScatterChanger());
+        Turn(SetWaypoint());
         transform.rotation = Quaternion.identity;
         MoveForward();
         SendRays();
@@ -78,23 +83,26 @@ public abstract class Ghost : MonoBehaviour
     /// Change phase between chase and scatter. Hardly make mistake becaues of everytime change phase it controls that it is in sactter or chase.
     /// </summary>
     /// <returns></returns>
-    protected IEnumerator ChaseScatterChanger()
+    protected IEnumerator ChaseChanger()
     {
-        while (true)
+        if (phase == Phase.Chase)
         {
+            yield return new WaitForSeconds(20);
             if (phase == Phase.Chase)
             {
-                yield return new WaitForSeconds(Random.Range(7,14));
-                if (phase == Phase.Chase)
-                {
-                    phase = Phase.Scatter;
+                phase = Phase.Scatter;
+            }
+        }
+    }
 
-                    yield return new WaitForSeconds(Random.Range(5, 10));
-                    if (phase == Phase.Scatter)
-                    {
-                        phase = Phase.Chase;
-                    }
-                }
+    protected IEnumerator ScatterChanger()
+    {
+        if (phase == Phase.Scatter)
+        {
+            yield return new WaitForSeconds(7);
+            if (phase == Phase.Scatter)
+            {
+                phase = Phase.Chase;
             }
         }
     }
@@ -107,6 +115,7 @@ public abstract class Ghost : MonoBehaviour
     protected IEnumerator FrightenedChanger()
     {
         phase = Phase.Frightened;
+        spriteRenderer.sprite = sprites[4];
 
         yield return new WaitForSeconds(10);
 
@@ -114,6 +123,11 @@ public abstract class Ghost : MonoBehaviour
         {
             phase = Phase.Chase;
         }
+    }
+
+    void FrightenedChangerStarter()
+    {
+        StartCoroutine(FrightenedChanger());
     }
 
     /// <summary>
@@ -160,7 +174,7 @@ public abstract class Ghost : MonoBehaviour
     /// Chase phase thing. (In scatter mode it chases the self scatter waypoint)
     /// </summary>
     /// <param name="waypoint"></param>
-    protected void GoPoint(Vector3 waypoint)
+    protected void Turn(Vector3 waypoint)
     {
         if (!isSpriteChanged)
         {
@@ -181,7 +195,7 @@ public abstract class Ghost : MonoBehaviour
                 minDistance = Vector3.Distance(transform.position + new Vector3(-col.bounds.size.x / 2, 0), waypoint);
                 spriteValue = 2;
             }
-            if (!spriteRenderer.sprite.name.Contains("Down") && !cannotTurnUp && !rays["TopLeftVer"] && !rays["TopRightVer"] && !rays["MiddleTop"] && Vector3.Distance(transform.position + new Vector3(0, col.bounds.size.y / 2), waypoint) <= minDistance)
+            if (!spriteRenderer.sprite.name.Contains("Down") && !(((gameObject.transform.position.x > -1 && gameObject.transform.position.x < 1) && (transform.position.y < 1.5f && transform.position.y > 1)) || ((transform.position.x > -1 && transform.position.x < 1) && (transform.position.y < -2.3f && transform.position.y > -3)))  && !rays["TopLeftVer"] && !rays["TopRightVer"] && !rays["MiddleTop"] && Vector3.Distance(transform.position + new Vector3(0, col.bounds.size.y / 2), waypoint) <= minDistance)
             {
                 minDistance = Vector3.Distance(transform.position + new Vector3(0, col.bounds.size.y / 2), waypoint);
                 spriteValue = 3;
@@ -247,29 +261,7 @@ public abstract class Ghost : MonoBehaviour
         tempBool = false;
     }
 
-    /// <summary>
-    /// Detect if ghost in cannotTurnUp place
-    /// </summary>
-    /// <param name="collider"></param>
-    void OnTriggerStay2D(Collider2D collider)
-    {
-        if (collider.CompareTag("CannotTurnUp"))
-        {
-            cannotTurnUp = true;
-        }
-    }
 
-    /// <summary>
-    /// Make cannotTurnUp false when exit area
-    /// </summary>
-    /// <param name="collider"></param>
-    void OnTriggerExit2D(Collider2D collider)
-    {
-        if (collider.CompareTag("CannotTurnUp"))
-        {
-            cannotTurnUp = false;
-        }
-    }
 
     /// <summary>
     /// Every ghost set self waypoint

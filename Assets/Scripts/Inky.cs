@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Inky : Ghost
 {
-    GameObject blinky = GameObject.Find("Blinky");
+    [Space]
+    [SerializeField]GameObject blinky;
 
 
     public override Vector3 SetWaypoint()
