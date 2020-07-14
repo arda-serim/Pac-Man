@@ -6,7 +6,7 @@ public class Clyde : Ghost
 {
     void FixedUpdate()
     {
-        if (Vector3.Distance(gameObject.transform.position, pacman.transform.position) < 2)
+        if (  phase != Phase.Dead && phase != Phase.Frightened && Vector3.Distance(gameObject.transform.position, pacman.transform.position) < 2)
         {
             phase = Phase.Scatter;
         }
@@ -16,7 +16,7 @@ public class Clyde : Ghost
     {
         if (phase == Phase.Dead)
         {
-            return new Vector3(0, 0.35f);
+            return new Vector3(0, 1.3f);
         }
 
         if (phase == Phase.Scatter)
@@ -26,7 +26,7 @@ public class Clyde : Ghost
 
         if (phase == Phase.Frightened)
         {
-            return new Vector3(Random.Range(-4.5f, 4.5f), Random.Range(-5f, 5f));
+            return transform.position;
         }
 
         return pacman.transform.position;

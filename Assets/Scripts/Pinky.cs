@@ -8,12 +8,17 @@ public class Pinky : Ghost
     {
         if (phase == Phase.Dead)
         {
-            return new Vector3(0, 0.35f);
+            return new Vector3(0, 1.3f);
         }
 
         if (phase == Phase.Scatter)
         {
             return new Vector3(-4.019f, 4.592f);
+        }
+
+        if (phase == Phase.Frightened)
+        {
+            return transform.position;
         }
 
         return pacman.transform.position + pacman.transform.right;

@@ -8,7 +8,7 @@ public class Blinky : Ghost
     {
         if (phase == Phase.Dead)
         {
-            return new Vector3(0, 0.35f);
+            return new Vector3(0, 1.3f);
         }
 
         if (phase == Phase.Scatter)
@@ -16,6 +16,10 @@ public class Blinky : Ghost
             return new Vector3(4.064f, 4.584f);
         }
 
+        if (phase == Phase.Frightened)
+        {
+            return transform.position;
+        }
         return pacman.transform.position;
     }
 }

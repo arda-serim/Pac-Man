@@ -7,22 +7,9 @@ using System;
 public class GameManager : MonoSingleton<GameManager>
 {
     public Action frightened;
-    List<GameObject> bigPoints;
 
-    void Start()
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        bigPoints = GameObject.FindGameObjectsWithTag("BigPoint").ToList<GameObject>();
-    }
-
-    void Update()
-    {
-        foreach (var bigPoint in bigPoints)
-        {
-            if (bigPoint == null)
-            {
-                bigPoints.Remove(bigPoint);
-                frightened();
-            }
-        }
+        collider.gameObject.transform.position = new Vector3(-collider.gameObject.transform.position.x, collider.transform.position.y);
     }
 }

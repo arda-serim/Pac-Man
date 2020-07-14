@@ -17,7 +17,7 @@ public abstract class Ghost : MonoBehaviour
 
     protected GameObject pacman;
 
-    [SerializeField] protected Sprite[] sprites = new Sprite[5];
+    [SerializeField] protected Sprite[] sprites = new Sprite[12];
 
     [SerializeField]protected int speed;
     private Rigidbody2D rb;
@@ -28,7 +28,7 @@ public abstract class Ghost : MonoBehaviour
     float errorMargin = 0;
     float raycastDistance = 0.5f;
 
-    int spriteValue;
+    int direction;
     float minDistance;
 
     protected bool isSpriteChanged;
@@ -60,8 +60,13 @@ public abstract class Ghost : MonoBehaviour
         tempBool = false;
         tempSprite = spriteRenderer.sprite;
         phase = Phase.Chase;
+        Physics2D.IgnoreCollision(pacman.GetComponent<Collider2D>(), col, false);
 
         GameManager.Instance.frightened += FrightenedChangerStarter;
+    }
+    private void OnDisable()
+    {
+        GameManager.Instance.frightened -= FrightenedChangerStarter;
     }
 
     void Update()
@@ -127,7 +132,8 @@ public abstract class Ghost : MonoBehaviour
 
     void FrightenedChangerStarter()
     {
-        StartCoroutine(FrightenedChanger());
+        if (phase != Phase.Dead)
+            StartCoroutine(FrightenedChanger());
     }
 
     /// <summary>
@@ -136,9 +142,11 @@ public abstract class Ghost : MonoBehaviour
     /// <param name="collision"></param>
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject == pacman)
+        if ( phase == Phase.Frightened && collision.gameObject == pacman)
         {
             phase = Phase.Dead;
+            Physics2D.IgnoreCollision(pacman.GetComponent<Collider2D>(), col);
+
         }
     }
 
@@ -150,19 +158,19 @@ public abstract class Ghost : MonoBehaviour
     {
         Vector3 tempVec = Vector3.zero;
 
-        if (spriteRenderer.sprite.name.Contains("Down"))
+        if (direction == 1)
         {
             tempVec = -transform.up;
         }
-        else if (spriteRenderer.sprite.name.Contains("Left"))
+        else if (direction == 2)
         {
             tempVec = -transform.right;
         }
-        else if (spriteRenderer.sprite.name.Contains("Right"))
+        else if (direction == 0)
         {
             tempVec = transform.right;
         }
-        else if (spriteRenderer.sprite.name.Contains("Up"))
+        else if (direction == 3)
         {
             tempVec = transform.up;
         }
@@ -183,25 +191,36 @@ public abstract class Ghost : MonoBehaviour
             if (!spriteRenderer.sprite.name.Contains("Left") && !rays["TopRightHor"] && !rays["BottomRightHor"] && !rays["MiddleRight"] && Vector3.Distance(transform.position + new Vector3(col.bounds.size.x / 2, 0), waypoint) <= minDistance)
             {
                 minDistance = Vector3.Distance(transform.position + new Vector3(col.bounds.size.x / 2, 0), waypoint);
-                spriteValue = 0;
+                direction = 0;
             }
             if (!spriteRenderer.sprite.name.Contains("Up") && !rays["BottomLeftVer"] && !rays["BottomRightVer"] && !rays["MiddleBottom"] && Vector3.Distance(transform.position + new Vector3(0, -col.bounds.size.y / 2), waypoint) <= minDistance)
             {
                 minDistance = Vector3.Distance(transform.position + new Vector3(0, -col.bounds.size.y / 2), waypoint);
-                spriteValue = 1;
+                direction = 1;
             }
             if (!spriteRenderer.sprite.name.Contains("Right") & !rays["TopLeftHor"] && !rays["BottomLeftHor"] && !rays["MiddleLeft"] && Vector3.Distance(transform.position + new Vector3(-col.bounds.size.x / 2, 0), waypoint) <= minDistance)
             {
                 minDistance = Vector3.Distance(transform.position + new Vector3(-col.bounds.size.x / 2, 0), waypoint);
-                spriteValue = 2;
+                direction = 2;
             }
             if (!spriteRenderer.sprite.name.Contains("Down") && !(((gameObject.transform.position.x > -1 && gameObject.transform.position.x < 1) && (transform.position.y < 1.5f && transform.position.y > 1)) || ((transform.position.x > -1 && transform.position.x < 1) && (transform.position.y < -2.3f && transform.position.y > -3)))  && !rays["TopLeftVer"] && !rays["TopRightVer"] && !rays["MiddleTop"] && Vector3.Distance(transform.position + new Vector3(0, col.bounds.size.y / 2), waypoint) <= minDistance)
             {
                 minDistance = Vector3.Distance(transform.position + new Vector3(0, col.bounds.size.y / 2), waypoint);
-                spriteValue = 3;
+                direction = 3;
             }
 
-            spriteRenderer.sprite = sprites[spriteValue];
+            if (phase == Phase.Frightened)
+            {
+                spriteRenderer.sprite = sprites[direction + 4];
+                return;
+            }
+
+            if (phase == Phase.Dead)
+            {
+                spriteRenderer.sprite = sprites[direction + 8];
+                return;
+            }   
+            spriteRenderer.sprite = sprites[direction];
         }
     }
 

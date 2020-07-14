@@ -70,7 +70,7 @@ TextureImporter:
     second: redDown1
   - first:
       213: 3950689983899740486
-    second: runMode0
+    second: runRight0
   - first:
       213: -3525548655422949061
     second: runMode1
@@ -109,19 +109,19 @@ TextureImporter:
     second: eyesRight
   - first:
       213: 286243765835191086
-    second: sprites_35
+    second: runDown0
   - first:
       213: -5113350760131414088
     second: eyesLeft
   - first:
       213: -2943835317918062483
-    second: sprites_37
+    second: runLeft0
   - first:
       213: -9009826273307446855
     second: eyesUp
   - first:
       213: -6038895966588477023
-    second: sprites_39
+    second: runUp0
   - first:
       213: 2527441650270232441
     second: eyesDown
@@ -747,7 +747,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: runMode0
+      name: runRight0
       rect:
         serializedVersion: 2
         x: 132
@@ -1456,6 +1456,69 @@ TextureImporter:
       bones: []
       spriteID: 12c8e97aae5ee4260800000000000000
       internalID: 7083852059897662497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: runDown0
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 148
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e23d6cd3031f8f300800000000000000
+      internalID: 286243765835191086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: runLeft0
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 148
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d68ae3e10656527d0800000000000000
+      internalID: -2943835317918062483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: runUp0
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 148
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a164f32d18813ca0800000000000000
+      internalID: -6038895966588477023
       vertices: []
       indices: 
       edges: []

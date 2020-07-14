@@ -87,16 +87,26 @@ public class PacMan : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (CompareTag("SmallPoint"))
+        if (other.CompareTag("SmallPoint"))
         {
             score += 10;
+
+            Destroy(other.gameObject);
         }
-        else if (CompareTag("BigPoint"))
+        if (other.CompareTag("BigPoint"))
         {
             score += 50;
-            // start run mode for ghosts
-        }
+            GameManager.Instance.frightened();
 
-        Destroy(other.gameObject);
+            Destroy(other.gameObject);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ghost"))
+        {
+            gameObject.GetComponent<Animator>().SetTrigger("DeathTrigger");
+        }
     }
 }

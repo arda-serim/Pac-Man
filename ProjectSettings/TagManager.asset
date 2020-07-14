@@ -6,9 +6,9 @@ TagManager:
   tags:
   - SmallPoint
   - BigPoint
-  - CannotTurnUp
   - Ghost
   - ClydeArea
+  - Portal
   layers:
   - Default
   - TransparentFX

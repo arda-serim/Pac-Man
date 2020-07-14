@@ -150,5 +150,12 @@ MonoBehaviour:
   - {fileID: 5888225539240422257, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
   - {fileID: -121173363941897590, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
   - {fileID: 3950689983899740486, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
+  - {fileID: 286243765835191086, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
+  - {fileID: -2943835317918062483, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
+  - {fileID: -6038895966588477023, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
+  - {fileID: -5647778350772032766, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
+  - {fileID: 2527441650270232441, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
+  - {fileID: -5113350760131414088, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
+  - {fileID: -9009826273307446855, guid: f82e4fc167b3ad44ea0d1f532ee60aee, type: 3}
   speed: 2
   blinky: {fileID: 6994776630671768025, guid: 7fbd8e0ad62757c429b222ec6751a6db, type: 3}
