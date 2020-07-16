@@ -188,22 +188,22 @@ public abstract class Ghost : MonoBehaviour
         {
             minDistance = 100;
 
-            if (!spriteRenderer.sprite.name.Contains("Left") && !rays["TopRightHor"] && !rays["BottomRightHor"] && !rays["MiddleRight"] && Vector3.Distance(transform.position + new Vector3(col.bounds.size.x / 2, 0), waypoint) <= minDistance)
+            if (direction != 2 && !rays["TopRightHor"] && !rays["BottomRightHor"] && !rays["MiddleRight"] && Vector3.Distance(transform.position + new Vector3(col.bounds.size.x / 2, 0), waypoint) <= minDistance)
             {
                 minDistance = Vector3.Distance(transform.position + new Vector3(col.bounds.size.x / 2, 0), waypoint);
                 direction = 0;
             }
-            if (!spriteRenderer.sprite.name.Contains("Up") && !rays["BottomLeftVer"] && !rays["BottomRightVer"] && !rays["MiddleBottom"] && Vector3.Distance(transform.position + new Vector3(0, -col.bounds.size.y / 2), waypoint) <= minDistance)
+            if (direction != 3 && !rays["BottomLeftVer"] && !rays["BottomRightVer"] && !rays["MiddleBottom"] && Vector3.Distance(transform.position + new Vector3(0, -col.bounds.size.y / 2), waypoint) <= minDistance)
             {
                 minDistance = Vector3.Distance(transform.position + new Vector3(0, -col.bounds.size.y / 2), waypoint);
                 direction = 1;
             }
-            if (!spriteRenderer.sprite.name.Contains("Right") & !rays["TopLeftHor"] && !rays["BottomLeftHor"] && !rays["MiddleLeft"] && Vector3.Distance(transform.position + new Vector3(-col.bounds.size.x / 2, 0), waypoint) <= minDistance)
+            if (direction != 0 & !rays["TopLeftHor"] && !rays["BottomLeftHor"] && !rays["MiddleLeft"] && Vector3.Distance(transform.position + new Vector3(-col.bounds.size.x / 2, 0), waypoint) <= minDistance)
             {
                 minDistance = Vector3.Distance(transform.position + new Vector3(-col.bounds.size.x / 2, 0), waypoint);
                 direction = 2;
             }
-            if (!spriteRenderer.sprite.name.Contains("Down") && !(((gameObject.transform.position.x > -1 && gameObject.transform.position.x < 1) && (transform.position.y < 1.5f && transform.position.y > 1)) || ((transform.position.x > -1 && transform.position.x < 1) && (transform.position.y < -2.3f && transform.position.y > -3)))  && !rays["TopLeftVer"] && !rays["TopRightVer"] && !rays["MiddleTop"] && Vector3.Distance(transform.position + new Vector3(0, col.bounds.size.y / 2), waypoint) <= minDistance)
+            if (direction != 1 && !(((gameObject.transform.position.x > -1 && gameObject.transform.position.x < 1) && (transform.position.y < 1.5f && transform.position.y > 1)) || ((transform.position.x > -1 && transform.position.x < 1) && (transform.position.y < -2.3f && transform.position.y > -3)))  && !rays["TopLeftVer"] && !rays["TopRightVer"] && !rays["MiddleTop"] && Vector3.Distance(transform.position + new Vector3(0, col.bounds.size.y / 2), waypoint) <= minDistance)
             {
                 minDistance = Vector3.Distance(transform.position + new Vector3(0, col.bounds.size.y / 2), waypoint);
                 direction = 3;
