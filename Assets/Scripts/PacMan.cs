@@ -36,22 +36,22 @@ public class PacMan : MonoBehaviour
 
     void Turn()
     {
-        if (Input.GetKeyDown(KeyCode.A) && !rays["TopLeftHor"] && !rays["BottomLeftHor"] && !rays["MiddleLeft"])
+        if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && !rays["TopLeftHor"] && !rays["BottomLeftHor"] && !rays["MiddleLeft"])
         {
             transform.rotation = Quaternion.Euler(0, 0, 180);
             currentRotationZ = 180;
         }
-        else if (Input.GetKeyDown(KeyCode.W) && !rays["TopLeftVer"] && !rays["TopRightVer"] && !rays["MiddleTop"])
+        else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && !rays["TopLeftVer"] && !rays["TopRightVer"] && !rays["MiddleTop"])
         {
             transform.rotation = Quaternion.Euler(0, 0, 90);
             currentRotationZ = 90;
         }
-        else if (Input.GetKeyDown(KeyCode.D) && !rays["TopRightHor"] && !rays["BottomRightHor"] && !rays["MiddleRight"])
+        else if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && !rays["TopRightHor"] && !rays["BottomRightHor"] && !rays["MiddleRight"])
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
             currentRotationZ = 0;
         }
-        else if (Input.GetKeyDown(KeyCode.S) && !rays["BottomLeftVer"] && !rays["BottomRightVer"] && !rays["MiddleBottom"])
+        else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && !rays["BottomLeftVer"] && !rays["BottomRightVer"] && !rays["MiddleBottom"])
         {
             transform.rotation = Quaternion.Euler(0, 0, 270);
             currentRotationZ = 270;
