@@ -22,6 +22,7 @@ public abstract class Ghost : MonoBehaviour
     [SerializeField]protected int speed;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+    Animator animator;
 
     protected Dictionary<string, RaycastHit2D> rays = new Dictionary<string, RaycastHit2D>();
     private Collider2D col;
@@ -41,6 +42,7 @@ public abstract class Ghost : MonoBehaviour
         col = gameObject.GetComponent<Collider2D>();
         rb = gameObject.GetComponent<Rigidbody2D>();
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        animator = gameObject.GetComponent<Animator>();
 
         List<GameObject> gameObjects = GameObject.FindGameObjectsWithTag("Ghost").ToList<GameObject>();
 
@@ -121,9 +123,15 @@ public abstract class Ghost : MonoBehaviour
     {
         phase = Phase.Frightened;
         spriteRenderer.sprite = sprites[4];
+        animator.SetInteger("AnimationPhase", 4);
 
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(7);
+        if (phase == Phase.Frightened)
+        {
+            animator.SetInteger("AnimationPhase", 5);
+        }
 
+        yield return new WaitForSeconds(3);
         if (phase == Phase.Frightened)
         {
             phase = Phase.Chase;
@@ -211,16 +219,19 @@ public abstract class Ghost : MonoBehaviour
 
             if (phase == Phase.Frightened)
             {
-                spriteRenderer.sprite = sprites[direction + 4];
+                spriteRenderer.sprite = sprites[4];
                 return;
             }
 
             if (phase == Phase.Dead)
             {
-                spriteRenderer.sprite = sprites[direction + 8];
+                spriteRenderer.sprite = sprites[direction + 5];
+                animator.SetInteger("AnimationPhase", direction + 6);
                 return;
-            }   
-            spriteRenderer.sprite = sprites[direction];
+            }
+
+            //spriteRenderer.sprite = sprites[direction];
+            animator.SetInteger("AnimationPhase", direction);
         }
     }
 
